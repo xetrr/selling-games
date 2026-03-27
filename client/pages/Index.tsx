@@ -9,6 +9,7 @@ const FEATURED_GAMES = [
     image: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400&h=225&fit=crop",
     size: "140GB",
     downloads: 3450,
+    price: 7.99,
   },
   {
     id: "baldurs-gate-3",
@@ -16,6 +17,7 @@ const FEATURED_GAMES = [
     image: "https://images.unsplash.com/photo-1535889713233-33f3dda7b751?w=400&h=225&fit=crop",
     size: "150GB",
     downloads: 2750,
+    price: 8.99,
   },
   {
     id: "elden-ring",
@@ -23,6 +25,7 @@ const FEATURED_GAMES = [
     image: "https://images.unsplash.com/photo-1552861561-340531ee7757?w=400&h=225&fit=crop",
     size: "60GB",
     downloads: 3200,
+    price: 5.99,
   },
   {
     id: "cyberpunk-2077",
@@ -30,6 +33,7 @@ const FEATURED_GAMES = [
     image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=225&fit=crop",
     size: "130GB",
     downloads: 2980,
+    price: 7.99,
   },
 ];
 
@@ -200,6 +204,7 @@ export default function Index() {
                 image={game.image}
                 size={game.size}
                 downloads={game.downloads}
+                price={game.price}
               />
             ))}
           </div>

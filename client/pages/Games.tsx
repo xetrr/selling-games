@@ -9,6 +9,7 @@ const SAMPLE_GAMES = [
     image: "https://images.unsplash.com/photo-1578979881614-f4fb84857d11?w=400&h=225&fit=crop",
     size: "45GB",
     downloads: 1250,
+    price: 4.99,
   },
   {
     id: "resident-evil-3",
@@ -16,6 +17,7 @@ const SAMPLE_GAMES = [
     image: "https://images.unsplash.com/photo-1585647347384-c0eb908cb4d8?w=400&h=225&fit=crop",
     size: "48GB",
     downloads: 1180,
+    price: 4.99,
   },
   {
     id: "resident-evil-4",
@@ -23,6 +25,7 @@ const SAMPLE_GAMES = [
     image: "https://images.unsplash.com/photo-1534531173927-c81fca934829?w=400&h=225&fit=crop",
     size: "52GB",
     downloads: 2340,
+    price: 5.99,
   },
   {
     id: "resident-evil-village",
@@ -30,6 +33,7 @@ const SAMPLE_GAMES = [
     image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400&h=225&fit=crop",
     size: "50GB",
     downloads: 2100,
+    price: 5.99,
   },
   {
     id: "alan-wake-2",
@@ -37,6 +41,7 @@ const SAMPLE_GAMES = [
     image: "https://images.unsplash.com/photo-1552820728-8ac41f1ce891?w=400&h=225&fit=crop",
     size: "90GB",
     downloads: 1890,
+    price: 6.99,
   },
   {
     id: "the-witcher-3",
@@ -44,6 +49,7 @@ const SAMPLE_GAMES = [
     image: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400&h=225&fit=crop",
     size: "140GB",
     downloads: 3450,
+    price: 7.99,
   },
   {
     id: "cyberpunk-2077",
@@ -51,6 +57,7 @@ const SAMPLE_GAMES = [
     image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=225&fit=crop",
     size: "130GB",
     downloads: 2980,
+    price: 7.99,
   },
   {
     id: "elden-ring",
@@ -58,6 +65,7 @@ const SAMPLE_GAMES = [
     image: "https://images.unsplash.com/photo-1552861561-340531ee7757?w=400&h=225&fit=crop",
     size: "60GB",
     downloads: 3200,
+    price: 5.99,
   },
   {
     id: "baldurs-gate-3",
@@ -65,6 +73,7 @@ const SAMPLE_GAMES = [
     image: "https://images.unsplash.com/photo-1535889713233-33f3dda7b751?w=400&h=225&fit=crop",
     size: "150GB",
     downloads: 2750,
+    price: 8.99,
   },
   {
     id: "starfield",
@@ -72,6 +81,7 @@ const SAMPLE_GAMES = [
     image: "https://images.unsplash.com/photo-1569163139394-de4798aa62b1?w=400&h=225&fit=crop",
     size: "125GB",
     downloads: 2600,
+    price: 7.99,
   },
   {
     id: "final-fantasy-16",
@@ -79,6 +89,7 @@ const SAMPLE_GAMES = [
     image: "https://images.unsplash.com/photo-1614613535308-eb5fbd8f2c5c?w=400&h=225&fit=crop",
     size: "140GB",
     downloads: 1950,
+    price: 7.99,
   },
   {
     id: "tekken-8",
@@ -86,6 +97,7 @@ const SAMPLE_GAMES = [
     image: "https://images.unsplash.com/photo-1577720643272-265a55e20cbb?w=400&h=225&fit=crop",
     size: "160GB",
     downloads: 1340,
+    price: 6.99,
   },
 ];
 
@@ -195,6 +207,7 @@ export default function Games() {
                     image={game.image}
                     size={game.size}
                     downloads={game.downloads}
+                    price={game.price}
                   />
                 ))}
               </div>

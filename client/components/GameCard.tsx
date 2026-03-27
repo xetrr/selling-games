@@ -1,5 +1,7 @@
 import { MessageCircle, Plus, Download, Eye } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useCart } from "@/contexts/CartContext";
+import { useState } from "react";
 
 interface GameCardProps {
   id: string;
@@ -7,9 +9,20 @@ interface GameCardProps {
   image: string;
   size: string;
   downloads: number;
+  price: number;
 }
 
-export default function GameCard({ id, title, image, size, downloads }: GameCardProps) {
+export default function GameCard({ id, title, image, size, downloads, price }: GameCardProps) {
+  const { addItem } = useCart();
+  const [justAdded, setJustAdded] = useState(false);
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addItem({ id, title, size, price, image });
+    setJustAdded(true);
+    setTimeout(() => setJustAdded(false), 2000);
+  }
   return (
     <Link
       to={`/game/${id}`}
@@ -75,17 +88,23 @@ export default function GameCard({ id, title, image, size, downloads }: GameCard
               <MessageCircle className="w-4 h-4 text-green-500" />
             </button>
 
-            {/* Add button */}
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-              }}
-              className="flex-1 px-3 py-2 rounded-lg bg-primary border border-primary/80 hover:bg-primary/90 transition-all text-white text-[11px] font-black uppercase tracking-wide flex items-center justify-center gap-1"
-            >
-              <Plus className="w-3 h-3" />
-              Add
-            </button>
+            {/* Price and Add button */}
+            <div className="flex-1 flex flex-col gap-1">
+              <div className="text-xs font-bold text-secondary text-center">
+                ${price.toFixed(2)}
+              </div>
+              <button
+                onClick={handleAddToCart}
+                className={`px-3 py-2 rounded-lg border transition-all text-white text-[11px] font-black uppercase tracking-wide flex items-center justify-center gap-1 ${
+                  justAdded
+                    ? "bg-green-500/80 border-green-500 text-white"
+                    : "bg-primary border-primary/80 hover:bg-primary/90"
+                }`}
+              >
+                <Plus className="w-3 h-3" />
+                {justAdded ? "Added!" : "Add"}
+              </button>
+            </div>
           </div>
         </div>
       </div>

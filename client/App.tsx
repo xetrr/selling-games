@@ -10,6 +10,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import BottomNav from "@/components/BottomNav";
+import { CartProvider } from "@/contexts/CartContext";
 
 import Index from "./pages/Index";
 import Games from "./pages/Games";
@@ -20,6 +21,7 @@ import Contact from "./pages/Contact";
 import Profile from "./pages/Profile";
 import Login from "./pages/Login";
 import GameDetail from "./pages/GameDetail";
+import Cart from "./pages/Cart";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -37,7 +39,8 @@ const Layout = ({ children }: { children: React.ReactNode }) => (
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
+    <CartProvider>
+      <TooltipProvider>
       <Toaster />
       <Sonner />
       <BrowserRouter>
@@ -114,6 +117,14 @@ const App = () => (
               </Layout>
             }
           />
+          <Route
+            path="/cart"
+            element={
+              <Layout>
+                <Cart />
+              </Layout>
+            }
+          />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route
             path="*"
@@ -125,7 +136,8 @@ const App = () => (
           />
         </Routes>
       </BrowserRouter>
-    </TooltipProvider>
+      </TooltipProvider>
+    </CartProvider>
   </QueryClientProvider>
 );
 

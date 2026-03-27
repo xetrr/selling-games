@@ -2,9 +2,11 @@ import { Link } from "react-router-dom";
 import { Menu, ShoppingCart, LogIn } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { useCart } from "@/contexts/CartContext";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { getTotalItems } = useCart();
 
   const navLinks = [
     { href: "/", label: "Home", icon: null },
@@ -41,12 +43,18 @@ export default function Header() {
 
         {/* Right side actions */}
         <div className="flex items-center gap-4">
-          <button
-            aria-label="Open cart"
-            className="p-2 hover:bg-muted rounded-lg transition-colors"
+          <Link
+            to="/cart"
+            className="relative p-2 hover:bg-muted rounded-lg transition-colors"
+            aria-label="Shopping cart"
           >
             <ShoppingCart className="w-5 h-5" />
-          </button>
+            {getTotalItems() > 0 && (
+              <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-primary rounded-full">
+                {getTotalItems()}
+              </span>
+            )}
+          </Link>
 
           <Link
             to="/login"
