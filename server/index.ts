@@ -2,6 +2,12 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
+import {
+  searchGames,
+  getGameById,
+  getPopularGames,
+  getGameImages,
+} from "./routes/games-api";
 
 export function createServer() {
   const app = express();
@@ -18,6 +24,12 @@ export function createServer() {
   });
 
   app.get("/api/demo", handleDemo);
+
+  // Games API routes (proxy to SteamGridDB)
+  app.get("/api/games/search", searchGames);
+  app.get("/api/games/:steamId", getGameById);
+  app.get("/api/games/popular", getPopularGames);
+  app.get("/api/games/:gameId/images", getGameImages);
 
   return app;
 }
