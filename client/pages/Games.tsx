@@ -1,6 +1,7 @@
 import GameCard from "@/components/GameCard";
-import { Search } from "lucide-react";
-import { useState } from "react";
+import { Search, Loader2 } from "lucide-react";
+import { useState, useEffect } from "react";
+import { getPopularGames } from "@/services/steamgriddb";
 
 const SAMPLE_GAMES = [
   {
@@ -104,8 +105,36 @@ const SAMPLE_GAMES = [
 export default function Games() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [games, setGames] = useState(SAMPLE_GAMES);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const filteredGames = SAMPLE_GAMES.filter((game) =>
+  useEffect(() => {
+    const loadGames = async () => {
+      try {
+        setLoading(true);
+        // Try to fetch from SteamGridDB API
+        const apiGames = await getPopularGames();
+
+        // Use API games if available, otherwise use sample games
+        if (apiGames.length > 0) {
+          setGames(apiGames);
+        } else {
+          setGames(SAMPLE_GAMES);
+        }
+      } catch (err) {
+        console.error("Error loading games:", err);
+        setError("Failed to load games. Showing sample games.");
+        setGames(SAMPLE_GAMES);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadGames();
+  }, []);
+
+  const filteredGames = games.filter((game) =>
     game.title.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -197,7 +226,19 @@ export default function Games() {
 
           {/* Games grid */}
           <div className="flex-1 pb-20 lg:pb-8">
-            {filteredGames.length > 0 ? (
+            {loading ? (
+              <div className="flex items-center justify-center py-20">
+                <div className="text-center space-y-4">
+                  <Loader2 className="w-12 h-12 animate-spin text-primary mx-auto" />
+                  <p className="text-foreground/60">Loading games...</p>
+                </div>
+              </div>
+            ) : error && filteredGames.length === 0 ? (
+              <div className="text-center py-12">
+                <p className="text-foreground/60 text-lg mb-4">{error}</p>
+                <p className="text-foreground/40">Showing sample games instead</p>
+              </div>
+            ) : filteredGames.length > 0 ? (
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6">
                 {filteredGames.map((game) => (
                   <GameCard

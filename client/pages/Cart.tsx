@@ -2,7 +2,7 @@ import { useCart } from "@/contexts/CartContext";
 import { Link } from "react-router-dom";
 import { Trash2, ArrowRight, ShoppingCart, Minus, Plus } from "lucide-react";
 import { useState } from "react";
-import { generatePDF } from "@/lib/pdf-export";
+import { generatePDF, PDFConfig } from "@/lib/pdf-export";
 
 export default function Cart() {
   const { state, removeItem, updateQuantity, getTotalSize, getTotalPrice, clearCart } =
@@ -12,7 +12,17 @@ export default function Cart() {
   const handleCheckout = async () => {
     setIsProcessing(true);
     try {
-      await generatePDF(state.items, getTotalSize(), getTotalPrice());
+      const pdfConfig: PDFConfig = {
+        companyName: "ABA PRO GAMES",
+        companyEmail: "aba@abaprogames.com",
+        companyPhone: "+20 121 083 8049",
+        invoiceNumber: `ORD-${Date.now().toString().slice(-6)}`,
+        taxRate: 0, // 0% tax - change this if needed
+        currency: "$",
+        footerText: "Thank you for your purchase! Download your games from the link provided in your email.",
+      };
+
+      await generatePDF(state.items, getTotalSize(), getTotalPrice(), pdfConfig);
       // Clear cart after successful export
       clearCart();
     } catch (error) {
