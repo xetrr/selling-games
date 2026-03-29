@@ -26,10 +26,11 @@ export function createServer() {
   app.get("/api/demo", handleDemo);
 
   // Games API routes (proxy to SteamGridDB)
+  // NOTE: More specific routes must come before parameterized routes
   app.get("/api/games/search", searchGames);
-  app.get("/api/games/:steamId", getGameById);
   app.get("/api/games/popular", getPopularGames);
   app.get("/api/games/:gameId/images", getGameImages);
+  app.get("/api/games/:steamId", getGameById);
 
   return app;
 }
