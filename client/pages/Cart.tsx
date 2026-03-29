@@ -1,37 +1,11 @@
 import { useCart } from "@/contexts/CartContext";
 import { Link } from "react-router-dom";
-import { Trash2, ArrowRight, ShoppingCart, Minus, Plus } from "lucide-react";
+import { Trash2, ArrowRight, ShoppingCart } from "lucide-react";
 import { useState } from "react";
-import { generatePDF, PDFConfig } from "@/lib/pdf-export";
 
 export default function Cart() {
-  const { state, removeItem, updateQuantity, getTotalSize, getTotalPrice, clearCart } =
-    useCart();
-  const [isProcessing, setIsProcessing] = useState(false);
-
-  const handleCheckout = async () => {
-    setIsProcessing(true);
-    try {
-      const pdfConfig: PDFConfig = {
-        companyName: "ABA PRO GAMES",
-        companyEmail: "aba@abaprogames.com",
-        companyPhone: "+20 121 083 8049",
-        invoiceNumber: `ORD-${Date.now().toString().slice(-6)}`,
-        taxRate: 0, // 0% tax - change this if needed
-        currency: "$",
-        footerText: "Thank you for your purchase! Download your games from the link provided in your email.",
-      };
-
-      await generatePDF(state.items, getTotalSize(), getTotalPrice(), pdfConfig);
-      // Clear cart after successful export
-      clearCart();
-    } catch (error) {
-      console.error("Error generating PDF:", error);
-      alert("Failed to generate PDF. Please try again.");
-    } finally {
-      setIsProcessing(false);
-    }
-  };
+  const { state, removeItem, clearCart, getTotalSize, getTotalItems } = useCart();
+  const [justCleared, setJustCleared] = useState(false);
 
   if (state.items.length === 0) {
     return (
@@ -46,7 +20,7 @@ export default function Cart() {
               Your Cart is Empty
             </h1>
             <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
-              Add some games to get started!
+              Start adding games to your collection!
             </p>
             <Link
               to="/games"
@@ -61,13 +35,19 @@ export default function Cart() {
     );
   }
 
+  const handleClearCart = () => {
+    clearCart();
+    setJustCleared(true);
+    setTimeout(() => setJustCleared(false), 3000);
+  };
+
   return (
     <div className="min-h-screen">
       {/* Header spacing */}
       <div className="h-16" />
 
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold text-foreground mb-8">Shopping Cart</h1>
+        <h1 className="text-4xl font-bold text-foreground mb-8">My Collection</h1>
 
         <div className="grid lg:grid-cols-3 gap-8 pb-20 lg:pb-8">
           {/* Cart items */}
@@ -75,60 +55,31 @@ export default function Cart() {
             {state.items.map((item) => (
               <div
                 key={item.id}
-                className="bg-card border border-border rounded-xl p-4 flex gap-4"
+                className="bg-card border border-border rounded-xl p-4 flex gap-4 items-center"
               >
                 {/* Image */}
                 <div className="w-20 h-20 rounded-lg overflow-hidden border border-border/50 flex-shrink-0">
                   <img
                     src={item.image}
-                    alt={item.title}
+                    alt={item.name}
                     className="w-full h-full object-cover"
                   />
                 </div>
 
                 {/* Content */}
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-bold text-foreground truncate">{item.title}</h3>
-                  <p className="text-sm text-foreground/60 mt-1">{item.size}</p>
-
-                  {/* Price */}
-                  <div className="mt-2">
-                    <p className="text-sm font-medium text-secondary">
-                      ${(item.price * item.quantity).toFixed(2)}
-                    </p>
-                  </div>
-
-                  {/* Quantity controls */}
-                  <div className="flex items-center gap-2 mt-3 bg-muted rounded-lg w-fit px-2 py-1">
-                    <button
-                      onClick={() =>
-                        updateQuantity(item.id, item.quantity - 1)
-                      }
-                      className="p-1 hover:bg-border rounded transition-colors"
-                      aria-label="Decrease quantity"
-                    >
-                      <Minus className="w-4 h-4" />
-                    </button>
-                    <span className="px-3 py-1 font-bold text-sm min-w-[2rem] text-center">
-                      {item.quantity}
-                    </span>
-                    <button
-                      onClick={() =>
-                        updateQuantity(item.id, item.quantity + 1)
-                      }
-                      className="p-1 hover:bg-border rounded transition-colors"
-                      aria-label="Increase quantity"
-                    >
-                      <Plus className="w-4 h-4" />
-                    </button>
-                  </div>
+                <div className="flex-1">
+                  <h3 className="font-bold text-foreground text-lg">{item.name}</h3>
+                  <p className="text-sm text-primary font-semibold mt-1">
+                    {item.size} GB
+                  </p>
                 </div>
 
                 {/* Remove button */}
                 <button
                   onClick={() => removeItem(item.id)}
-                  className="p-2 hover:bg-destructive/20 text-destructive rounded-lg transition-colors self-start"
+                  className="p-3 hover:bg-destructive/20 text-destructive rounded-lg transition-colors flex-shrink-0"
                   aria-label="Remove item"
+                  title="Remove from collection"
                 >
                   <Trash2 className="w-5 h-5" />
                 </button>
@@ -138,51 +89,59 @@ export default function Cart() {
 
           {/* Summary */}
           <div className="lg:col-span-1">
-            <div className="bg-card border border-border rounded-xl p-6 sticky top-24 space-y-4">
-              <h2 className="text-xl font-bold text-foreground">Order Summary</h2>
+            <div className="bg-card border border-border rounded-xl p-6 sticky top-24 space-y-6">
+              <h2 className="text-xl font-bold text-foreground">Summary</h2>
 
-              <div className="space-y-3 border-t border-border pt-4">
-                <div className="flex justify-between text-sm text-foreground/70">
-                  <span>Items ({state.items.reduce((sum, item) => sum + item.quantity, 0)})</span>
-                  <span>${getTotalPrice().toFixed(2)}</span>
+              {/* Stats */}
+              <div className="space-y-4">
+                <div className="flex justify-between items-center p-3 bg-muted/50 rounded-lg">
+                  <span className="text-foreground/70 font-medium">Total Games</span>
+                  <span className="text-2xl font-bold text-primary">
+                    {getTotalItems()}
+                  </span>
                 </div>
-                <div className="flex justify-between text-sm text-foreground/70">
-                  <span>Total Size</span>
-                  <span>{getTotalSize()}</span>
+
+                <div className="flex justify-between items-center p-3 bg-muted/50 rounded-lg">
+                  <span className="text-foreground/70 font-medium">Total Size</span>
+                  <span className="text-2xl font-bold text-primary">
+                    {getTotalSize()} GB
+                  </span>
                 </div>
               </div>
 
-              <div className="border-t border-border pt-4 space-y-2">
-                <div className="flex justify-between text-lg font-bold text-foreground">
-                  <span>Total</span>
-                  <span className="text-secondary">${getTotalPrice().toFixed(2)}</span>
+              {/* Info box */}
+              <div className="bg-primary/10 border border-primary/30 rounded-lg p-4 space-y-2 text-xs text-foreground/70">
+                <p className="font-medium text-primary">ℹ️ Collection Info</p>
+                <p>
+                  Your collection contains {getTotalItems()} game{getTotalItems() !== 1 ? 's' : ''}.
+                </p>
+                <p>
+                  Total storage required: <strong>{getTotalSize()} GB</strong>
+                </p>
+              </div>
+
+              {/* Buttons */}
+              <div className="space-y-3">
+                <Link
+                  to="/games"
+                  className="block w-full px-6 py-3 bg-primary hover:bg-primary/90 text-primary-foreground font-bold rounded-lg transition-all text-center"
+                >
+                  Continue Shopping
+                </Link>
+
+                <button
+                  onClick={handleClearCart}
+                  className="w-full px-6 py-3 bg-destructive/20 hover:bg-destructive/30 text-destructive font-bold rounded-lg transition-all border border-destructive/50"
+                >
+                  Clear Collection
+                </button>
+              </div>
+
+              {justCleared && (
+                <div className="p-3 bg-green-500/20 border border-green-500/50 rounded-lg text-green-400 text-sm text-center">
+                  ✓ Collection cleared
                 </div>
-              </div>
-
-              <button
-                onClick={handleCheckout}
-                disabled={isProcessing}
-                className="w-full px-6 py-3 bg-primary hover:bg-primary/90 disabled:bg-primary/50 text-primary-foreground font-bold rounded-lg transition-all hover:shadow-lg hover:shadow-primary/20 disabled:cursor-not-allowed"
-              >
-                {isProcessing ? "Processing..." : "Generate & Export PDF"}
-              </button>
-
-              <Link
-                to="/games"
-                className="block w-full px-6 py-3 bg-card border border-border hover:border-primary/50 text-foreground font-bold rounded-lg transition-all text-center"
-              >
-                Continue Shopping
-              </Link>
-
-              <div className="bg-muted/50 border border-border/50 rounded-lg p-4 space-y-2 text-xs text-foreground/60">
-                <p className="font-medium">Your PDF will include:</p>
-                <ul className="space-y-1 list-disc list-inside">
-                  <li>Game ID, Name & Size</li>
-                  <li>Total Storage Size</li>
-                  <li>Price Information</li>
-                  <li>Order Details</li>
-                </ul>
-              </div>
+              )}
             </div>
           </div>
         </div>

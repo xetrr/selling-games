@@ -2,10 +2,8 @@ import React, { createContext, useContext, useReducer, ReactNode } from "react";
 
 export interface CartItem {
   id: string;
-  title: string;
-  size: string;
-  price: number;
-  quantity: number;
+  name: string;
+  size: number; // in GB
   image: string;
 }
 
@@ -14,20 +12,18 @@ interface CartState {
 }
 
 type CartAction =
-  | { type: "ADD_ITEM"; payload: Omit<CartItem, "quantity"> }
+  | { type: "ADD_ITEM"; payload: CartItem }
   | { type: "REMOVE_ITEM"; payload: string }
-  | { type: "UPDATE_QUANTITY"; payload: { id: string; quantity: number } }
   | { type: "CLEAR_CART" };
 
 interface CartContextType {
   state: CartState;
-  addItem: (item: Omit<CartItem, "quantity">) => void;
+  addItem: (item: CartItem) => void;
   removeItem: (id: string) => void;
-  updateQuantity: (id: string, quantity: number) => void;
   clearCart: () => void;
-  getTotalSize: () => string;
-  getTotalPrice: () => number;
+  getTotalSize: () => number;
   getTotalItems: () => number;
+  isInCart: (id: string) => boolean;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -35,33 +31,18 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 const cartReducer = (state: CartState, action: CartAction): CartState => {
   switch (action.type) {
     case "ADD_ITEM": {
-      const existingItem = state.items.find((item) => item.id === action.payload.id);
-      if (existingItem) {
-        return {
-          items: state.items.map((item) =>
-            item.id === action.payload.id
-              ? { ...item, quantity: item.quantity + 1 }
-              : item
-          ),
-        };
+      // Check if item already in cart
+      if (state.items.find((item) => item.id === action.payload.id)) {
+        return state; // Already in cart, don't add duplicate
       }
       return {
-        items: [...state.items, { ...action.payload, quantity: 1 }],
+        items: [...state.items, action.payload],
       };
     }
 
     case "REMOVE_ITEM":
       return {
         items: state.items.filter((item) => item.id !== action.payload),
-      };
-
-    case "UPDATE_QUANTITY":
-      return {
-        items: state.items.map((item) =>
-          item.id === action.payload.id
-            ? { ...item, quantity: action.payload.quantity }
-            : item
-        ),
       };
 
     case "CLEAR_CART":
@@ -75,7 +56,7 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
 export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(cartReducer, { items: [] });
 
-  const addItem = (item: Omit<CartItem, "quantity">) => {
+  const addItem = (item: CartItem) => {
     dispatch({ type: "ADD_ITEM", payload: item });
   };
 
@@ -83,33 +64,20 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     dispatch({ type: "REMOVE_ITEM", payload: id });
   };
 
-  const updateQuantity = (id: string, quantity: number) => {
-    if (quantity <= 0) {
-      removeItem(id);
-    } else {
-      dispatch({ type: "UPDATE_QUANTITY", payload: { id, quantity } });
-    }
-  };
-
   const clearCart = () => {
     dispatch({ type: "CLEAR_CART" });
   };
 
-  const getTotalSize = (): string => {
-    let totalGB = 0;
-    state.items.forEach((item) => {
-      const gbValue = parseFloat(item.size.replace("GB", ""));
-      totalGB += gbValue * item.quantity;
-    });
-    return `${totalGB.toFixed(2)}GB`;
-  };
-
-  const getTotalPrice = (): number => {
-    return state.items.reduce((total, item) => total + item.price * item.quantity, 0);
+  const getTotalSize = (): number => {
+    return state.items.reduce((total, item) => total + item.size, 0);
   };
 
   const getTotalItems = (): number => {
-    return state.items.reduce((total, item) => total + item.quantity, 0);
+    return state.items.length;
+  };
+
+  const isInCart = (id: string): boolean => {
+    return state.items.some((item) => item.id === id);
   };
 
   return (
@@ -118,11 +86,10 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         state,
         addItem,
         removeItem,
-        updateQuantity,
         clearCart,
         getTotalSize,
-        getTotalPrice,
         getTotalItems,
+        isInCart,
       }}
     >
       {children}

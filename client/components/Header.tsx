@@ -21,9 +21,9 @@ export default function Header() {
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border/50 transition-all duration-300">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex items-center">
-          <div className="text-xl font-black tracking-tight text-primary">
-            ABA PRO GAMES
+        <Link to="/" className="flex items-center gap-2">
+          <div className="text-2xl font-black tracking-tight bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
+            PIXEL PC
           </div>
         </Link>
 
@@ -33,7 +33,7 @@ export default function Header() {
             <Link
               key={link.href}
               to={link.href}
-              className="text-sm font-medium text-foreground/70 hover:text-foreground transition-colors relative group"
+              className="text-sm font-medium text-foreground/70 hover:text-primary transition-colors relative group"
             >
               {link.label}
               <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-300" />

@@ -12,98 +12,98 @@
    * A different format will require also updating the theme in tailwind.config.ts.
   */
   :root {
-    /* Dark theme colors - ABA Pro Games inspired */
-    --background: 240 6% 6%;
+    /* Dark theme colors - Pixel PC with Cyan */
+    --background: 240 10% 5%;
     --foreground: 210 40% 98%;
 
-    --card: 240 6% 8%;
+    --card: 240 10% 8%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 240 6% 8%;
+    --popover: 240 10% 8%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 25 64% 40%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 185 95% 45%;
+    --primary-foreground: 240 10% 5%;
 
-    --secondary: 27 80% 65%;
-    --secondary-foreground: 240 6% 6%;
+    --secondary: 185 100% 35%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 240 4% 11%;
+    --muted: 240 8% 15%;
     --muted-foreground: 210 20% 60%;
 
-    --accent: 25 64% 40%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 185 95% 45%;
+    --accent-foreground: 240 10% 5%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 240 4% 11%;
-    --input: 240 4% 11%;
-    --ring: 25 64% 40%;
+    --border: 240 8% 15%;
+    --input: 240 8% 15%;
+    --ring: 185 95% 45%;
 
     --radius: 0.5rem;
 
-    --sidebar-background: 240 6% 8%;
+    --sidebar-background: 240 10% 8%;
 
     --sidebar-foreground: 210 40% 98%;
 
-    --sidebar-primary: 25 64% 40%;
+    --sidebar-primary: 185 95% 45%;
 
-    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-primary-foreground: 240 10% 5%;
 
-    --sidebar-accent: 240 4% 11%;
+    --sidebar-accent: 240 8% 15%;
 
     --sidebar-accent-foreground: 210 40% 98%;
 
-    --sidebar-border: 240 4% 11%;
+    --sidebar-border: 240 8% 15%;
 
-    --sidebar-ring: 25 64% 40%;
+    --sidebar-ring: 185 95% 45%;
   }
 
   .dark {
-    --background: 240 6% 6%;
+    --background: 240 10% 5%;
     --foreground: 210 40% 98%;
 
-    --card: 240 6% 8%;
+    --card: 240 10% 8%;
     --card-foreground: 210 40% 98%;
 
-    --popover: 240 6% 8%;
+    --popover: 240 10% 8%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 25 64% 40%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 185 95% 45%;
+    --primary-foreground: 240 10% 5%;
 
-    --secondary: 27 80% 65%;
-    --secondary-foreground: 240 6% 6%;
+    --secondary: 185 100% 35%;
+    --secondary-foreground: 210 40% 98%;
 
-    --muted: 240 4% 11%;
+    --muted: 240 8% 15%;
     --muted-foreground: 210 20% 60%;
 
-    --accent: 25 64% 40%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 185 95% 45%;
+    --accent-foreground: 240 10% 5%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 240 4% 11%;
-    --input: 240 4% 11%;
-    --ring: 25 64% 40%;
+    --border: 240 8% 15%;
+    --input: 240 8% 15%;
+    --ring: 185 95% 45%;
 
-    --sidebar-background: 240 6% 8%;
+    --sidebar-background: 240 10% 8%;
 
     --sidebar-foreground: 210 40% 98%;
 
-    --sidebar-primary: 25 64% 40%;
+    --sidebar-primary: 185 95% 45%;
 
-    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-primary-foreground: 240 10% 5%;
 
-    --sidebar-accent: 240 4% 11%;
+    --sidebar-accent: 240 8% 15%;
 
     --sidebar-accent-foreground: 210 40% 98%;
 
-    --sidebar-border: 240 4% 11%;
+    --sidebar-border: 240 8% 15%;
 
-    --sidebar-ring: 25 64% 40%;
+    --sidebar-ring: 185 95% 45%;
   }
 }
 

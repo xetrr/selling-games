@@ -21,12 +21,11 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
           {/* About Section */}
           <div>
-            <h3 className="text-base font-black tracking-tight text-white mb-4">
-              ABA PRO GAMES
+            <h3 className="text-base font-black tracking-tight bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent mb-4">
+              PIXEL PC
             </h3>
             <p className="text-sm text-foreground/60 mb-6">
-              Your premier destination for game data, hard drives, and gaming
-              accessories. Experience gaming like never before.
+              The ultimate gaming destination. Explore, download, and play the games you love.
             </p>
             <div className="space-y-3">
               <p className="text-xs font-black tracking-[0.25em] uppercase text-primary mb-3">
@@ -118,38 +117,25 @@ export default function Footer() {
           {/* Contact Section */}
           <div>
             <h3 className="text-[10px] font-black tracking-[0.25em] uppercase text-primary mb-6">
-              Get In Touch
+              Contact
             </h3>
             <ul className="space-y-3">
               <li>
                 <a
-                  href="https://wa.me/201210838049"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="tel:01023456789"
                   className="text-xs font-medium text-foreground/60 hover:text-foreground transition-colors flex items-center gap-2"
                 >
                   <MessageCircle className="w-3 h-3 text-primary" />
-                  +20 121 083 8049
+                  01023456789
                 </a>
               </li>
               <li>
                 <a
-                  href="mailto:aba@abaprogames.com"
+                  href="mailto:dumb@email.com"
                   className="text-xs font-medium text-foreground/60 hover:text-foreground transition-colors flex items-center gap-2"
                 >
                   <Mail className="w-3 h-3 text-primary" />
-                  aba@abaprogames.com
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://maps.app.goo.gl/9WUL7GCnYtNTj23U7"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-xs font-medium text-foreground/60 hover:text-foreground transition-colors flex items-center gap-2"
-                >
-                  <MapPin className="w-3 h-3 text-primary" />
-                  <span className="ltr">Cairo, Egypt</span>
+                  dumb@email.com
                 </a>
               </li>
             </ul>
@@ -178,8 +164,8 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="border-t border-border/50 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-foreground/60">
-          <p>© {currentYear} ABA Pro Games. All rights reserved.</p>
-          <p>Made with passion for gaming 🎮</p>
+          <p>© {currentYear} Pixel PC. All rights reserved.</p>
+          <p>Experience Gaming. Elevated. 🎮</p>
         </div>
       </div>
     </footer>

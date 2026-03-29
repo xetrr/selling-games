@@ -1,33 +1,36 @@
-import { MessageCircle, Plus, Download, Eye } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Plus, X, Eye } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
 import { useState } from "react";
 
 interface GameCardProps {
   id: string;
-  title: string;
+  name: string;
   image: string;
-  size: string;
-  downloads: number;
-  price: number;
+  size: number; // in GB
 }
 
-export default function GameCard({ id, title, image, size, downloads, price }: GameCardProps) {
-  const { addItem } = useCart();
-  const [justAdded, setJustAdded] = useState(false);
+export default function GameCard({ id, name, image, size }: GameCardProps) {
+  const { isInCart, addItem, removeItem } = useCart();
+  const [isInCartState, setIsInCartState] = useState(isInCart(id));
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    addItem({ id, title, size, price, image });
-    setJustAdded(true);
-    setTimeout(() => setJustAdded(false), 2000);
-  }
+    
+    addItem({ id, name, size, image });
+    setIsInCartState(true);
+  };
+
+  const handleRemoveFromCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    removeItem(id);
+    setIsInCartState(false);
+  };
+
   return (
-    <Link
-      to={`/game/${id}`}
-      className="block group"
-    >
+    <div className="block group">
       <div className="relative overflow-hidden flex flex-col h-full transition-all duration-300 bg-card border border-border rounded-xl hover:border-primary/50">
         {/* Gradient line on hover */}
         <div className="absolute top-0 left-0 right-0 h-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-primary via-secondary to-transparent" />
@@ -36,22 +39,21 @@ export default function GameCard({ id, title, image, size, downloads, price }: G
         <div className="relative overflow-hidden aspect-video">
           <img
             src={image}
-            alt={title}
+            alt={name}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
 
           {/* Image overlay on hover */}
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300" />
 
-          {/* Size badge - top left */}
-          <div className="absolute top-2.5 left-2.5 px-2 py-1 rounded-md text-[10px] font-black tracking-wide bg-black/75 border border-primary/35 text-secondary">
-            {size}
-          </div>
-
-          {/* Download count badge - bottom left */}
-          <div className="absolute bottom-2.5 left-2.5 px-2 py-1 rounded-md text-[10px] font-medium bg-black/65 border border-white/8 text-foreground/60 flex items-center gap-1">
-            <Download className="w-2.5 h-2.5" />
-            {downloads}
+          {/* Size badge - top left (LARGE) */}
+          <div className="absolute top-3 left-3 px-3 py-2 rounded-lg bg-primary/90 border border-primary/50 backdrop-blur-sm">
+            <div className="text-lg font-black text-primary-foreground">
+              {size}
+            </div>
+            <div className="text-[10px] font-bold text-primary-foreground/80">
+              GB
+            </div>
           </div>
 
           {/* Preview button - top right (show on hover on larger screens) */}
@@ -60,54 +62,44 @@ export default function GameCard({ id, title, image, size, downloads, price }: G
               e.preventDefault();
               e.stopPropagation();
             }}
-            className="absolute top-2.5 right-2.5 z-10 w-7 h-7 rounded-lg bg-black/70 border border-white/12 flex items-center justify-center sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300 hover:bg-black/80 hover:border-white/20"
+            className="absolute top-3 right-3 z-10 w-10 h-10 rounded-lg bg-primary/80 border border-primary hover:bg-primary transition-all flex items-center justify-center sm:opacity-0 sm:group-hover:opacity-100"
             aria-label="Preview"
+            title="View details"
           >
-            <Eye className="w-3.5 h-3.5 text-foreground" />
+            <Eye className="w-5 h-5 text-primary-foreground" />
           </button>
         </div>
 
         {/* Content section */}
-        <div className="px-3 py-2.5 flex flex-col gap-2 border-t border-border flex-grow">
+        <div className="px-4 py-3 flex flex-col gap-3 border-t border-border flex-grow">
           {/* Game title */}
-          <h3 className="text-xs font-bold text-white truncate" dir="ltr">
-            {title}
+          <h3 className="text-sm font-bold text-white line-clamp-2">
+            {name}
           </h3>
 
-          {/* Action buttons */}
-          <div className="flex gap-2">
-            {/* WhatsApp button */}
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-              }}
-              className="w-9 h-9 rounded-lg bg-green-500/15 border border-green-500/45 flex items-center justify-center hover:bg-green-500/25 transition-all"
-              aria-label="Chat on WhatsApp"
-            >
-              <MessageCircle className="w-4 h-4 text-green-500" />
-            </button>
-
-            {/* Price and Add button */}
-            <div className="flex-1 flex flex-col gap-1">
-              <div className="text-xs font-bold text-secondary text-center">
-                ${price.toFixed(2)}
-              </div>
-              <button
-                onClick={handleAddToCart}
-                className={`px-3 py-2 rounded-lg border transition-all text-white text-[11px] font-black uppercase tracking-wide flex items-center justify-center gap-1 ${
-                  justAdded
-                    ? "bg-green-500/80 border-green-500 text-white"
-                    : "bg-primary border-primary/80 hover:bg-primary/90"
-                }`}
-              >
-                <Plus className="w-3 h-3" />
-                {justAdded ? "Added!" : "Add"}
-              </button>
-            </div>
-          </div>
+          {/* Action button */}
+          <button
+            onClick={isInCartState ? handleRemoveFromCart : handleAddToCart}
+            className={`w-full px-4 py-2.5 rounded-lg border-2 transition-all text-white font-bold uppercase tracking-wide flex items-center justify-center gap-2 text-sm ${
+              isInCartState
+                ? "bg-red-500/20 border-red-500 hover:bg-red-500/30"
+                : "bg-primary/20 border-primary hover:bg-primary/30"
+            }`}
+          >
+            {isInCartState ? (
+              <>
+                <X className="w-4 h-4" />
+                Remove
+              </>
+            ) : (
+              <>
+                <Plus className="w-4 h-4" />
+                Add
+              </>
+            )}
+          </button>
         </div>
       </div>
-    </Link>
+    </div>
   );
 }
