@@ -7,16 +7,17 @@ interface GameCardProps {
   name: string;
   image: string;
   size: number; // in GB
+  onPreview?: (name: string) => void;
 }
 
-export default function GameCard({ id, name, image, size }: GameCardProps) {
+export default function GameCard({ id, name, image, size, onPreview }: GameCardProps) {
   const { isInCart, addItem, removeItem } = useCart();
   const [isInCartState, setIsInCartState] = useState(isInCart(id));
 
   const handleAddToCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    
+
     addItem({ id, name, size, image });
     setIsInCartState(true);
   };
@@ -24,9 +25,15 @@ export default function GameCard({ id, name, image, size }: GameCardProps) {
   const handleRemoveFromCart = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    
+
     removeItem(id);
     setIsInCartState(false);
+  };
+
+  const handlePreview = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onPreview?.(name);
   };
 
   return (
@@ -58,10 +65,7 @@ export default function GameCard({ id, name, image, size }: GameCardProps) {
 
           {/* Preview button - top right (show on hover on larger screens) */}
           <button
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-            }}
+            onClick={handlePreview}
             className="absolute top-3 right-3 z-10 w-10 h-10 rounded-lg bg-primary/80 border border-primary hover:bg-primary transition-all flex items-center justify-center sm:opacity-0 sm:group-hover:opacity-100"
             aria-label="Preview"
             title="View details"

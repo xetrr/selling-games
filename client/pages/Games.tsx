@@ -1,4 +1,5 @@
 import GameCard from "@/components/GameCard";
+import GameDetailsModal from "@/components/GameDetailsModal";
 import { Search, Loader2 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { fetchGames } from "@/services/supabase";
@@ -8,6 +9,8 @@ export default function Games() {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedGame, setSelectedGame] = useState<string | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const loadGames = async () => {
@@ -81,6 +84,10 @@ export default function Games() {
                   name={game.name}
                   image={game.image}
                   size={game.size}
+                  onPreview={(name) => {
+                    setSelectedGame(name);
+                    setIsModalOpen(true);
+                  }}
                 />
               ))}
             </div>
@@ -93,6 +100,16 @@ export default function Games() {
           )}
         </div>
       </div>
+
+      {/* Game Details Modal */}
+      <GameDetailsModal
+        gameName={selectedGame || ""}
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setSelectedGame(null);
+        }}
+      />
     </div>
   );
 }
