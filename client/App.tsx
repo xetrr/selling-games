@@ -14,14 +14,8 @@ import { CartProvider } from "@/contexts/CartContext";
 
 import Index from "./pages/Index";
 import Games from "./pages/Games";
-import Accessories from "./pages/Accessories";
-import HardDrives from "./pages/HardDrives";
-import SuggestGame from "./pages/SuggestGame";
-import Contact from "./pages/Contact";
-import Profile from "./pages/Profile";
-import Login from "./pages/Login";
-import GameDetail from "./pages/GameDetail";
 import Cart from "./pages/Cart";
+import Admin from "./pages/Admin";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -62,66 +56,18 @@ const App = () => (
             }
           />
           <Route
-            path="/game/:id"
-            element={
-              <Layout>
-                <GameDetail />
-              </Layout>
-            }
-          />
-          <Route
-            path="/accessories"
-            element={
-              <Layout>
-                <Accessories />
-              </Layout>
-            }
-          />
-          <Route
-            path="/harddisks"
-            element={
-              <Layout>
-                <HardDrives />
-              </Layout>
-            }
-          />
-          <Route
-            path="/suggest-game"
-            element={
-              <Layout>
-                <SuggestGame />
-              </Layout>
-            }
-          />
-          <Route
-            path="/contact"
-            element={
-              <Layout>
-                <Contact />
-              </Layout>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <Layout>
-                <Profile />
-              </Layout>
-            }
-          />
-          <Route
-            path="/login"
-            element={
-              <Layout>
-                <Login />
-              </Layout>
-            }
-          />
-          <Route
             path="/cart"
             element={
               <Layout>
                 <Cart />
+              </Layout>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <Layout>
+                <Admin />
               </Layout>
             }
           />

@@ -8,9 +8,7 @@ export default function BottomNav() {
   const navItems = [
     { href: "/", icon: Home, label: "Home" },
     { href: "/games", icon: Gamepad2, label: "Games" },
-    { href: "/harddisks", icon: HardDrive, label: "Drives" },
-    { href: "/accessories", icon: Package, label: "Accessories" },
-    { href: "/profile", icon: User, label: "Profile" },
+    { href: "/cart", icon: Package, label: "Collection" },
   ];
 
   return (

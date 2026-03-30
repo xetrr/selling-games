@@ -64,51 +64,35 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Navigation Section */}
+          {/* Quick Links Section */}
           <div>
             <h3 className="text-[10px] font-black tracking-[0.25em] uppercase text-primary mb-6">
-              Navigation
+              Quick Links
             </h3>
             <ul className="space-y-2">
-              <li>
-                <Link
-                  to="/games"
-                  className="text-xs font-medium text-foreground/60 hover:text-foreground transition-colors flex items-center gap-2"
-                >
-                  <Gamepad2 className="w-3 h-3" />
-                  Game Data
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/harddisks"
-                  className="text-xs font-medium text-foreground/60 hover:text-foreground transition-colors flex items-center gap-2"
-                >
-                  Hard Drives
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/accessories"
-                  className="text-xs font-medium text-foreground/60 hover:text-foreground transition-colors flex items-center gap-2"
-                >
-                  Accessories
-                </Link>
-              </li>
               <li>
                 <Link
                   to="/"
                   className="text-xs font-medium text-foreground/60 hover:text-foreground transition-colors flex items-center gap-2"
                 >
-                  Media
+                  <Gamepad2 className="w-3 h-3" />
+                  Home
                 </Link>
               </li>
               <li>
                 <Link
-                  to="/contact"
+                  to="/games"
                   className="text-xs font-medium text-foreground/60 hover:text-foreground transition-colors flex items-center gap-2"
                 >
-                  Contact Us
+                  Games
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/cart"
+                  className="text-xs font-medium text-foreground/60 hover:text-foreground transition-colors flex items-center gap-2"
+                >
+                  My Collection
                 </Link>
               </li>
             </ul>

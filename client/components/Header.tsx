@@ -11,10 +11,6 @@ export default function Header() {
   const navLinks = [
     { href: "/", label: "Home", icon: null },
     { href: "/games", label: "Games", icon: null },
-    { href: "/accessories", label: "Accessories", icon: null },
-    { href: "/harddisks", label: "Hard Drives", icon: null },
-    { href: "/suggest-game", label: "Suggest Game", icon: null },
-    { href: "/contact", label: "Contact", icon: null },
   ];
 
   return (
