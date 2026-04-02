@@ -3,7 +3,7 @@ import {
   Facebook,
   Heart,
   MessageCircle,
-  Youtube,
+  Play,
   Mail,
   MapPin,
   Gamepad2,
@@ -56,9 +56,9 @@ export default function Footer() {
                 <a
                   href="#"
                   className="p-2 bg-muted rounded-lg hover:bg-primary/20 transition-colors"
-                  aria-label="YouTube"
+                  aria-label="Videos"
                 >
-                  <Youtube className="w-4 h-4 text-foreground/70 hover:text-primary" />
+                  <Play className="w-4 h-4 text-foreground/70 hover:text-primary" />
                 </a>
               </div>
             </div>
