@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import {
-  Facebook,
+  Share2,
   Heart,
   MessageCircle,
   Play,
@@ -35,9 +35,9 @@ export default function Footer() {
                 <a
                   href="#"
                   className="p-2 bg-muted rounded-lg hover:bg-primary/20 transition-colors"
-                  aria-label="Facebook"
+                  aria-label="Share"
                 >
-                  <Facebook className="w-4 h-4 text-foreground/70 hover:text-primary" />
+                  <Share2 className="w-4 h-4 text-foreground/70 hover:text-primary" />
                 </a>
                 <a
                   href="#"
