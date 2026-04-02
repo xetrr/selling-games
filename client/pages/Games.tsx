@@ -17,16 +17,17 @@ export default function Games() {
       try {
         setLoading(true);
         setError(null);
+
         const data = await fetchGames();
-        
+
         if (data.length === 0) {
-          setError("No games in collection yet. Admin can add games from the admin panel.");
+          setError("📝 No games added yet. Use the Admin Panel at /admin to add your first game!");
         } else {
           setGames(data);
         }
       } catch (err) {
         console.error("Error loading games:", err);
-        setError("Failed to load games. Please try again.");
+        setError("⚠️ Supabase connection failed. Check your API key and ensure the 'games' table exists.");
       } finally {
         setLoading(false);
       }
@@ -71,9 +72,31 @@ export default function Games() {
               </div>
             </div>
           ) : error && games.length === 0 ? (
-            <div className="text-center py-20">
-              <p className="text-foreground/60 text-lg mb-4">{error}</p>
-              <p className="text-foreground/40">Check back soon for updates!</p>
+            <div className="text-center py-20 max-w-2xl mx-auto">
+              <p className="text-foreground/60 text-lg mb-6">{error}</p>
+              <div className="bg-primary/10 border border-primary/30 rounded-lg p-6 space-y-4 text-left">
+                <h3 className="font-bold text-primary text-lg">Setup Instructions:</h3>
+                {error.includes("No games") && (
+                  <div className="space-y-2">
+                    <p className="text-foreground/80">1. Visit the <strong className="text-primary">/admin</strong> page</p>
+                    <p className="text-foreground/80">2. Login with password: <strong className="text-primary">#Mm01068283805</strong></p>
+                    <p className="text-foreground/80">3. Add games with name, image URL, and size (GB)</p>
+                  </div>
+                )}
+                {error.includes("Supabase") && (
+                  <div className="space-y-2">
+                    <p className="text-foreground/80"><strong>Issue:</strong> Supabase API key is invalid or table doesn't exist</p>
+                    <p className="text-foreground/80 mt-3"><strong>Fix:</strong></p>
+                    <ol className="text-sm text-foreground/70 space-y-1 list-decimal list-inside ml-2">
+                      <li>Create a Supabase project at <a href="https://supabase.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">supabase.com</a></li>
+                      <li>Create table "games" with: id (uuid), name (text), image (text), size (numeric)</li>
+                      <li>Copy your API URL and Anon Key</li>
+                      <li>Update .env file with your credentials</li>
+                      <li>Restart dev server or redeploy</li>
+                    </ol>
+                  </div>
+                )}
+              </div>
             </div>
           ) : filteredGames.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 md:gap-6">
