@@ -18,6 +18,52 @@ export interface Game {
   created_at?: string;
 }
 
+// Demo games for testing
+const DEMO_GAMES: Game[] = [
+  {
+    id: "demo-1",
+    name: "The Witcher 3",
+    image: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?w=400&h=225&fit=crop",
+    size: 140,
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "demo-2",
+    name: "Cyberpunk 2077",
+    image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=400&h=225&fit=crop",
+    size: 130,
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "demo-3",
+    name: "Elden Ring",
+    image: "https://images.unsplash.com/photo-1552861561-340531ee7757?w=400&h=225&fit=crop",
+    size: 60,
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "demo-4",
+    name: "Baldur's Gate 3",
+    image: "https://images.unsplash.com/photo-1535889713233-33f3dda7b751?w=400&h=225&fit=crop",
+    size: 150,
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "demo-5",
+    name: "Starfield",
+    image: "https://images.unsplash.com/photo-1569163139394-de4798aa62b1?w=400&h=225&fit=crop",
+    size: 125,
+    created_at: new Date().toISOString(),
+  },
+  {
+    id: "demo-6",
+    name: "Alan Wake 2",
+    image: "https://images.unsplash.com/photo-1552820728-8ac41f1ce891?w=400&h=225&fit=crop",
+    size: 90,
+    created_at: new Date().toISOString(),
+  },
+];
+
 // Fetch all games
 export const fetchGames = async (): Promise<Game[]> => {
   try {
@@ -29,8 +75,10 @@ export const fetchGames = async (): Promise<Game[]> => {
     if (error) throw error;
     return data || [];
   } catch (error) {
-    console.error('Error fetching games:', error);
-    return [];
+    console.error('Error fetching games from Supabase:', error);
+    // Fallback to demo games if Supabase fails
+    console.log('Using demo games. Set up Supabase to use real database.');
+    return DEMO_GAMES;
   }
 };
 

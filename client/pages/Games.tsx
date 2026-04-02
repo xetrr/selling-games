@@ -19,15 +19,14 @@ export default function Games() {
         setError(null);
 
         const data = await fetchGames();
+        setGames(data);
 
         if (data.length === 0) {
-          setError("📝 No games added yet. Use the Admin Panel at /admin to add your first game!");
-        } else {
-          setGames(data);
+          setError("📝 No games in database. Use the Admin Panel at /admin to add your first game!");
         }
       } catch (err) {
         console.error("Error loading games:", err);
-        setError("⚠️ Supabase connection failed. Check your API key and ensure the 'games' table exists.");
+        setError("⚠️ Failed to load games. Please try again.");
       } finally {
         setLoading(false);
       }
